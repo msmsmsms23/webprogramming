@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>신서유기 게임</title>
+  <style>
+    #image {
+      width: 200px;
+      height: 200px;
+    }
+  </style>
+</head>
+<body style = "text-align: center;">
+  <h1><b>인물퀴즈</b></h1><br>
+  <div id = "nicknameDisplay"></div>
+  <img id = "image" src = "" alt = "랜덤 이미지">
+  <span id = "score">0</span>점
+  <br>
+  <input type = "text" id = "answerInput" placeholder = "정답 입력" onkeydown = "handleEnterKey(event)">
+  <button onclick = "checkAnswer()">정답 확인</button>
+  <div id = "timer">3초</div>
+
+  <audio id = "correctSound" src = "correct.mp3"></audio>
+  <audio id = "incorrectSound" src = "incorrect.mp3"></audio>
+
+  <script>
+    var urlParams = new URLSearchParams(window.location.search);
+    var nickname = urlParams.get('nickname');
+
+    var nicknameDisplay = document.getElementById('nicknameDisplay');
+    nicknameDisplay.textContent = "안녕하세요, " + nickname + "님!";
+
+    var images = ['lee.jpg', 'kang.jpg', 'ljj.jpg', 'song.jpg', 'ko.jpg', 'young.jpg', 'choen.jpg']; // 이미지 경로 배열
+    var answers = ['이동욱', '강동원', '이정재', '송강호', '김고은', '박보영', '천우희'];
+    var currentIndex = 0;
+    var score = 0;
+    var timerInterval;
+
+    function getRandomIndex() {
+      var index = Math.floor(Math.random() * images.length); // 랜덤 인덱스 생성
+      while (index === currentIndex) {
+        index = Math.floor(Math.random() * images.length);
+      }
+
+      return index;
+    }
+
+    function showRandomImage() {
+      var randomIndex = getRandomIndex();
+      currentIndex = randomIndex; // 현재 인덱스 업데이트
+      var randomImage = images[randomIndex]; // 랜덤 이미지 선택
+
+      var imageElement = document.getElementById('image');
+      imageElement.src = randomImage; // 이미지 엘리먼트에 랜덤 이미지 경로 할당
+    }
+
+    function checkAnswer() {
+      var userInput = document.getElementById('answerInput').value; // 사용자 입력
+      var correctAnswer = answers[currentIndex]; // 현재 이미지에 대한 정답
+
+      clearInterval(timerInterval); // 타이머 인터벌 해제
+
+      if (userInput.toLowerCase() === correctAnswer.toLowerCase()) { // 대소문자 구분 없이 정답 비교
+        score++;
+        document.getElementById('score').textContent = score;
+        showRandomImage(); // 다음 이미지 표시
+        document.getElementById('answerInput').value = ''; // 입력 필드 초기화
+        startTimer(); // 타이머 재시작
+
+      correctSound.currentTime = 0; // 효과음 재생 위치를 시작으로 설정
+      correctSound.play(); // 정답 시 효과음 재생
+    } else {
+    incorrectSound.currentTime = 0; // 효과음 재생 위치를 시작으로 설정
+    incorrectSound.play(); // 오답 시 효과음 재생
+
+    alert('틀렸습니다. 다시 시도해보세요!');
+    document.getElementById('answerInput').value = ''; // 입력 필드 초기화
+    startTimer(); // 타이머 재시작
+  }
+}
+
+    function handleEnterKey(event) {
+      if (event.keyCode === 13) { // Enter 키를 눌렀을 때
+        checkAnswer(); // 정답 확인 동작 수행
+      }
+    }
+
+    function startTimer() {
+      let timeLeft = 3; // 초기 시간 설정
+      const timerElement = document.getElementById('timer');
+
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        timerElement.textContent = timeLeft + '초';
+
+        if (timeLeft === 0) {
+          clearInterval(timerInterval); // 타이머 인터벌 해제
+          checkAnswer(); // 시간 초과로 처리
+        }
+      }, 1000);
+    }
+
+    // 페이지 로드 시 첫 번째 이미지 표시 및 타이머 시작
+    window.onload = () => {
+      showRandomImage();
+      startTimer();
+    };
+  </script>
+</body>
+</html>

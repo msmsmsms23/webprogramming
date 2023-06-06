@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>음악 퀴즈</title>
+</head>
+<body>
+    <h1>음악 퀴즈</h1><br>
+    <div id = "nicknameDisplay"></div>
+    <div id="video">
+        <iframe id="youtubePlayer" width="20" height="20" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>👈 이곳을 클릭해야 노래가 재생됩니다.
+    </div>
+    <br>
+    <h3>한글로 <b>곡 제목</b>을 <b>띄어쓰기 없이</b> 입력해야 정답 인정<br><i>ex. Cheer up (X), 트와이스 (X), 치얼업 (O)</i></h3>
+    <span id="score">0</span>점
+    <br>
+    <input type="text" id="answerInput" placeholder="정답 입력" onkeydown="handleEnterKey(event)">
+    <button onclick="checkAnswer()">정답 확인</button>
+    <div id="timer">7초</div>
+
+    <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        var nickname = urlParams.get('nickname');
+
+        var nicknameDisplay = document.getElementById('nicknameDisplay');
+        nicknameDisplay.textContent = "안녕하세요, " + nickname + "님!";
+        
+        const videoIds = [
+            'WtAuSC3lk14', // 빅뱅 - 하루하루
+            '0l9LB_Noe2Q', // 오마이걸 - Dun Dun Dance
+            '0wezH4MAncY', // 아이들 - TOMBOY
+            'ivmKSmQ1G74', // 청하 - 롤러코스터
+            'FeUKnUVGCFo', // 제시 - ZOOM
+        ];
+        const answers = ['하루하루', '던던댄스', '톰보이', '롤러코스터', '줌'];
+        let currentIndex = 0;
+        let score = 0;
+        let timerInterval;
+
+        function playRandomVideo() {
+            const randomIndex = Math.floor(Math.random() * videoIds.length);
+            const youtubePlayer = document.getElementById('youtubePlayer');
+            youtubePlayer.src = 'https://www.youtube.com/embed/' + videoIds[randomIndex] + "?controls=0&autoplay=1&mute=0";
+        }
+
+        function checkAnswer() {
+            const userInput = document.getElementById('answerInput').value.trim(); // 사용자 입력 (양 끝 공백 제거)
+            const correctAnswer = answers[currentIndex]; // 현재 이미지에 대한 정답
+
+            clearInterval(timerInterval); // 타이머 인터벌 해제
+
+            if (answers.some(answer => answer.toLowerCase() === userInput.toLowerCase())) {
+                score++;
+                document.getElementById('score').textContent = score;
+                playRandomVideo(); // 다음 이미지 표시
+                document.getElementById('answerInput').value = ''; // 입력 필드 초기화
+                startTimer(); // 타이머 재시작
+            } else {
+                alert('틀렸습니다. 다시 시도해보세요!');
+                document.getElementById('answerInput').value = ''; // 입력 필드 초기화
+                startTimer(); // 타이머 재시작
+            }
+
+        }
+
+        function handleEnterKey(event) {
+            if (event.keyCode === 13) { // Enter 키를 눌렀을 때
+                checkAnswer(); // 정답 확인 동작 수행
+            }
+        }
+
+        function startTimer() {
+            let timeLeft = 7; // 초기 시간 설정
+            const timerElement = document.getElementById('timer');
+
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                timerElement.textContent = timeLeft + '초';
+
+                if (timeLeft === 0) {
+                    clearInterval(timerInterval); // 타이머 인터벌 해제
+                    checkAnswer(); // 시간 초과로 처리
+                }
+            }, 1000);
+        }
+
+        // 페이지 로드 시 첫 번째 이미지 표시 및 타이머 시작
+        window.onload = () => {
+            playRandomVideo();
+            startTimer();
+        };
+    </script>
+</body>
+</html>

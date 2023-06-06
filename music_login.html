@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인</title>
+  
+</head>
+
+<body>
+  <h1>닉네임 설정</h1>
+  <form id = "loginForm">
+    <label for = "nickname">닉네임: </label>
+    <input type = "text" id="nickname" required>
+    <br>
+    <input type = "button" onclick = "quiz1Page()" value = "쉬움">
+    <input type = "button" onclick = "quiz2Page()" value = "보통">
+    <input type = "button" onclick = "quiz3Page()" value = "어려움">
+  </form>
+
+  <script>
+    function quiz1Page() {
+      var nickname = document.getElementById('nickname').value;
+
+      if (nickname.trim() !== '') {
+        // 닉네임이 입력되었을 경우 인물 퀴즈 페이지로 이동
+        window.location.href = 'music_low.html?nickname=' + encodeURIComponent(nickname);
+      } else {
+        alert('닉네임을 입력해주세요.');
+      }
+    }
+
+    function quiz2Page() {
+      var nickname = document.getElementById('nickname').value;
+
+      if (nickname.trim() !== '') {
+        // 닉네임이 입력되었을 경우 음악 퀴즈 페이지로 이동
+        window.location.href = 'music_medium.html?nickname=' + encodeURIComponent(nickname);
+      } else {
+        alert('닉네임을 입력해주세요.');
+      }
+    }
+
+    function quiz2Page() {
+      var nickname = document.getElementById('nickname').value;
+
+      if (nickname.trim() !== '') {
+        // 닉네임이 입력되었을 경우 음악 퀴즈 페이지로 이동
+        window.location.href = 'music_high.html?nickname=' + encodeURIComponent(nickname);
+      } else {
+        alert('닉네임을 입력해주세요.');
+      }
+    }
+  </script>
+</body>
+
+</html>

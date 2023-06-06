@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>신서유기 퀴즈</h1>
+    <form>
+        <select name = "quiz" id = "quiz">
+            <option value = "none" selected>=== 선택 ===</option>
+            <option value = "human">인물 퀴즈</option>
+            <option value = "music">음악 퀴즈</option>
+        </select>
+        <select name = "difficulty" id = "difficulty">
+            <option value = "none" selected>=== 선택 ===</option>
+            <option value = "low">쉬움</option>
+            <option value = "medium">보통</option>
+            <option value = "high">어려움</option>
+        </select>
+        <input type = "submit" value = "시작!">
+    </form>
+    <script>
+        function redirectToQuiz(event) {
+            event.preventDefault();
+
+            const quizSelect = document.getElementById("quiz");
+            const difficultySelect = document.getElementById("difficulty");
+
+            const quizValue = quizSelect.value;
+            const difficultyValue = difficultySelect.value;
+
+            if (quizValue !== "none" && difficultyValue !== "none") {
+                let url = "quiz.html?quiz=" + quizValue + "&difficulty=" + difficultyValue;
+                window.location.href = url;
+            }
+        }
+    </script>
+</body>
+</html>
