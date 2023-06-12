@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>음악 퀴즈</title>
+    <title>음악 퀴즈 - 어려움</title>
 </head>
 <body>
     <h1>음악 퀴즈</h1><br>
     <div id = "nicknameDisplay"></div>
-    <div id="video">
-        <iframe id="youtubePlayer" width="20" height="20" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>👈 이곳을 클릭해야 노래가 재생됩니다.
+    <div id = "video">
+        <iframe id = "youtubePlayer" width = "20" height = "20" src = "" frameborder = "0" allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>👈 이곳을 클릭해야 노래가 재생됩니다.
     </div>
     <br>
     <h3>한글로 <b>곡 제목</b>을 <b>띄어쓰기 없이</b> 입력해야 정답 인정<br><i>ex. Cheer up (X), 트와이스 (X), 치얼업 (O)</i></h3>
-    <span id="score">0</span>점
+    <span id = "score">0</span>점
     <br>
-    <input type="text" id="answerInput" placeholder="정답 입력" onkeydown="handleEnterKey(event)">
-    <button onclick="checkAnswer()">정답 확인</button>
-    <div id="timer">7초</div>
+    <input type = "text" id = "answerInput" placeholder = "정답 입력" onkeydown = "handleEnterKey(event)">
+    <button onclick = "checkAnswer()">정답 확인</button>
+    <div id = "timer">7초</div>
 
     <script>
         var urlParams = new URLSearchParams(window.location.search);
@@ -28,11 +28,11 @@
         nicknameDisplay.textContent = "안녕하세요, " + nickname + "님!";
         
         const videoIds = [
-            'ipOih_lghwo', // 트와이스 - What is love?
-            'o5XMwCB1n5w', // 펜타곤 - 빛나리
-            'FMYsOfpjUDk', // 세븐틴 - 만세
-            'Zo4paFNw6z0', // 엔하이픈 - 폴라로이드 러브
-            'i019N_fw92Y', // 소녀시대 - The boys
+            'ipOih_lghwo',
+            'o5XMwCB1n5w',
+            'FMYsOfpjUDk',
+            'Zo4paFNw6z0',
+            'i019N_fw92Y',
         ];
         const answers = ['왓이즈러브', '빛나리', '만세', '폴라로이드러브', '더보이즈'];
         let currentIndex = 0;
@@ -46,33 +46,33 @@
         }
 
         function checkAnswer() {
-            const userInput = document.getElementById('answerInput').value.trim(); // 사용자 입력 (양 끝 공백 제거)
-            const correctAnswer = answers[currentIndex]; // 현재 이미지에 대한 정답
+            const userInput = document.getElementById('answerInput').value.trim();
+            const correctAnswer = answers[currentIndex];
 
-            clearInterval(timerInterval); // 타이머 인터벌 해제
+            clearInterval(timerInterval);
 
             if (answers.some(answer => answer.toLowerCase() === userInput.toLowerCase())) {
                 score++;
                 document.getElementById('score').textContent = score;
-                playRandomVideo(); // 다음 이미지 표시
-                document.getElementById('answerInput').value = ''; // 입력 필드 초기화
-                startTimer(); // 타이머 재시작
+                playRandomVideo();
+                document.getElementById('answerInput').value = '';
+                startTimer();
             } else {
                 alert('틀렸습니다. 다시 시도해보세요!');
-                document.getElementById('answerInput').value = ''; // 입력 필드 초기화
-                startTimer(); // 타이머 재시작
+                document.getElementById('answerInput').value = '';
+                startTimer();
             }
 
         }
 
         function handleEnterKey(event) {
-            if (event.keyCode === 13) { // Enter 키를 눌렀을 때
-                checkAnswer(); // 정답 확인 동작 수행
+            if (event.keyCode === 13) {
+                checkAnswer();
             }
         }
 
         function startTimer() {
-            let timeLeft = 7; // 초기 시간 설정
+            let timeLeft = 7;
             const timerElement = document.getElementById('timer');
 
             timerInterval = setInterval(() => {
@@ -80,13 +80,12 @@
                 timerElement.textContent = timeLeft + '초';
 
                 if (timeLeft === 0) {
-                    clearInterval(timerInterval); // 타이머 인터벌 해제
-                    checkAnswer(); // 시간 초과로 처리
+                    clearInterval(timerInterval);
+                    checkAnswer();
                 }
             }, 1000);
         }
 
-        // 페이지 로드 시 첫 번째 이미지 표시 및 타이머 시작
         window.onload = () => {
             playRandomVideo();
             startTimer();
