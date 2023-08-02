@@ -5,11 +5,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>메인</title>
+    <link rel="stylesheet" href="./main.css">
 </head>
 <body>
-    <h1>퀴즈 유형 선택</h1>
-    <input type = "button" onclick = "quiz1Page()" value = "인물 퀴즈">
-    <input type = "button" onclick = "quiz2Page()" value = "음악 퀴즈">
+    <div class = "main">
+        <h1>퀴즈 유형 선택</h1>
+    </div>
+        <input type = "button" class = "button" onclick = "quiz1Page()" value = "인물 퀴즈">
+        <input type = "button" class = "button" onclick = "quiz2Page()" value = "음악 퀴즈">
     <script>
         function quiz1Page()  {
             window.location.href = './human_login.html'

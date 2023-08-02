@@ -6,6 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>인물 퀴즈 - 아이돌</title>
+  <link rel="stylesheet" href="./main.css">
   <style>
     #image {
       width: 200px;
@@ -19,8 +20,8 @@
   <img id = "image" src = "" alt = "랜덤 이미지">
   <span id = "score">0</span>점
   <br>
-  <input type = "text" id = "answerInput" placeholder = "정답 입력" onkeydown = "handleEnterKey(event)">
-  <button onclick = "checkAnswer()">정답 확인</button>
+  <input type = "text" class = "text" id = "answerInput" placeholder = "정답 입력" onkeydown = "handleEnterKey(event)">
+  <input type = "button" class = "button" onclick = "checkAnswer()" value = "정답 확인">
   <div id = "timer">3초</div>
 
   <audio id = "correctSound" src = "correct.mp3"></audio>
